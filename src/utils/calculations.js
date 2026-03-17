@@ -42,6 +42,58 @@ export function calcGrossMargin(sellingPriceCentavos, totalCostCentavos) {
   return sellingPriceCentavos - totalCostCentavos;
 }
 
+// ─── FC% TOLERANCE SYSTEM ────────────────────────────────────────────────────
+
+/**
+ * Get FC% target midpoint and tolerance range (±5 percentage points)
+ */
+export function getFCTarget(category) {
+  const isBev = category === 'beverage';
+  const target = isBev ? 27.5 : 31.5;
+  return { target, min: target - 5, max: target + 5 };
+}
+
+/**
+ * Check if actual FC% is within tolerance of category target
+ * Returns review trigger if drift exceeds ±5pp from midpoint
+ */
+export function checkFCTolerance(fcPct, category) {
+  const { target, min, max } = getFCTarget(category);
+  const drift = fcPct - target;
+  const inTolerance = fcPct >= min && fcPct <= max;
+  return {
+    inTolerance,
+    drift: Math.abs(drift),
+    direction: drift > 0 ? 'over' : drift < 0 ? 'under' : 'on_target',
+    triggerReview: !inTolerance,
+    target,
+    min,
+    max,
+  };
+}
+
+// ─── THEORETICAL CONSUMPTION ─────────────────────────────────────────────────
+
+/**
+ * Calculate theoretical ingredient consumption based on sales × recipe quantities
+ * @param {Object} recipes - keyed by sku_code, each has ingredients[]
+ * @param {Array} salesItems - [{sku_code, qty_sold}]
+ * @returns {Array} [{name, qty, unit}] aggregated
+ */
+export function calcTheoreticalConsumption(recipes, salesItems) {
+  const agg = {};
+  for (const { sku_code, qty_sold } of salesItems) {
+    const recipe = recipes[sku_code];
+    if (!recipe?.ingredients) continue;
+    for (const ing of recipe.ingredients) {
+      const key = `${ing.name}||${ing.unit}`;
+      if (!agg[key]) agg[key] = { name: ing.name, qty: 0, unit: ing.unit };
+      agg[key].qty += (ing.qty_per_serving || 0) * qty_sold;
+    }
+  }
+  return Object.values(agg).sort((a, b) => a.name.localeCompare(b.name));
+}
+
 // ─── QC SCORING ──────────────────────────────────────────────────────────────
 
 export const QC_WEIGHTS = {

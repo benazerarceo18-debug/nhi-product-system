@@ -12,6 +12,12 @@ const useSkuStore = create((set, get) => ({
     skus: state.skus.filter(s => s.sku_code !== sku_code),
   })),
 
+  updateSellingPrice: (sku_code, newPriceCentavos) => set((state) => ({
+    skus: state.skus.map(s =>
+      s.sku_code === sku_code ? { ...s, selling_price: newPriceCentavos } : s
+    ),
+  })),
+
   getByBrand: (brand) => get().skus.filter(s => s.brand === brand),
 }));
 

@@ -1,5 +1,7 @@
 import { BRANDS, BRAND_LABELS, BRAND_SKU_TARGETS, KPI_TARGETS } from '../data/seed';
 import useSkuStore from '../store/skuStore';
+import useAlertStore from '../store/alertStore';
+import { AlertTriangle } from 'lucide-react';
 
 const PHASES = [
   { phase: 1, name: 'Pilot',    scope: 'Kazu Café Ayala Triangle (13 SKUs)', status: 'done',    weeks: '1–4' },
@@ -20,6 +22,7 @@ function StatCard({ label, value, sub, color = 'navy' }) {
 
 export default function Dashboard() {
   const allSkus = useSkuStore(s => s.skus);
+  const openAlerts = useAlertStore(s => s.getOpen());
   const totalSkus = allSkus.length;
   const activeBrands = new Set(allSkus.map(s => s.brand)).size;
 
@@ -78,6 +81,31 @@ export default function Dashboard() {
             })}
           </div>
         </div>
+      </div>
+
+      {/* FC% Alerts Card */}
+      <div className="bg-white rounded-lg border p-4 mb-6">
+        <div className="flex items-center gap-2 mb-3">
+          <AlertTriangle size={16} className={openAlerts.length > 0 ? 'text-gold' : 'text-gray-300'} />
+          <h3 className="text-sm font-semibold">FC% Tolerance Alerts</h3>
+        </div>
+        {openAlerts.length === 0 ? (
+          <p className="text-sm text-gray-400">No open alerts — all recipes within tolerance.</p>
+        ) : (
+          <div className="space-y-2">
+            {openAlerts.map(a => {
+              const sku = allSkus.find(s => s.sku_code === a.sku_code);
+              return (
+                <div key={a.id} className="flex items-center gap-3 text-sm bg-gold/5 rounded px-3 py-2">
+                  <span className="font-mono text-xs">{a.sku_code}</span>
+                  <span className="text-gray-600">{sku?.product_name}</span>
+                  <span className="ml-auto text-xs text-gold font-medium">{a.drift_pct?.toFixed(1)}pp {a.actual_fc_pct > a.target_fc_pct ? 'over' : 'under'} target</span>
+                </div>
+              );
+            })}
+            <p className="text-xs text-gray-400 mt-1">{openAlerts.length} open review{openAlerts.length > 1 ? 's' : ''} — resolve in Recipe Costing</p>
+          </div>
+        )}
       </div>
 
       <div className="bg-white rounded-lg border p-4">

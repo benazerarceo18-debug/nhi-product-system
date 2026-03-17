@@ -97,6 +97,25 @@ export const GLOSSARY = [
   { term:'BDSP', def:'Business Development & Special Projects. Responsible for new products, system rollout, strategy.' },
 ];
 
+export const INGREDIENT_CATEGORIES = [
+  'All', 'Dairy', 'Powder/Tea', 'Syrup', 'Produce', 'Protein', 'Noodles', 'Packaging',
+];
+
+export const INITIAL_MARKET_ITEMS = [
+  { id: 'm01', name: 'Matcha Powder (Ceremonial)',  supplier_id: 3, unit: 'g',   unit_size: '100g tin',      price_centavos: 350,  category: 'Powder/Tea',  price_history: [] },
+  { id: 'm02', name: 'Hojicha Powder',              supplier_id: 3, unit: 'g',   unit_size: '100g tin',      price_centavos: 280,  category: 'Powder/Tea',  price_history: [] },
+  { id: 'm03', name: 'Fresh Milk',                  supplier_id: 3, unit: 'ml',  unit_size: '1L carton',     price_centavos: 12,   category: 'Dairy',       price_history: [] },
+  { id: 'm04', name: 'Heavy Cream',                 supplier_id: 3, unit: 'ml',  unit_size: '1L carton',     price_centavos: 25,   category: 'Dairy',       price_history: [] },
+  { id: 'm05', name: 'Ube Halaya',                  supplier_id: 3, unit: 'g',   unit_size: '500g tub',      price_centavos: 40,   category: 'Produce',     price_history: [] },
+  { id: 'm06', name: 'Hazelnut Syrup',              supplier_id: 3, unit: 'ml',  unit_size: '750ml bottle',  price_centavos: 18,   category: 'Syrup',       price_history: [] },
+  { id: 'm07', name: 'Salted Caramel Syrup',        supplier_id: 3, unit: 'ml',  unit_size: '750ml bottle',  price_centavos: 18,   category: 'Syrup',       price_history: [] },
+  { id: 'm08', name: 'Ramen Noodles (Fresh)',        supplier_id: 3, unit: 'g',   unit_size: '150g portion',  price_centavos: 30,   category: 'Noodles',     price_history: [] },
+  { id: 'm09', name: 'Gyoza Wrappers',              supplier_id: 3, unit: 'pc',  unit_size: '50pc pack',     price_centavos: 150,  category: 'Noodles',     price_history: [] },
+  { id: 'm10', name: 'Chicken Thigh (Boneless)',     supplier_id: 3, unit: 'g',   unit_size: '1kg pack',      price_centavos: 45,   category: 'Protein',     price_history: [] },
+  { id: 'm11', name: 'Chashu Pork Belly',           supplier_id: 3, unit: 'g',   unit_size: '1kg slab',      price_centavos: 55,   category: 'Protein',     price_history: [] },
+  { id: 'm12', name: '16oz Cup + Lid',              supplier_id: 4, unit: 'pc',  unit_size: '50pc sleeve',   price_centavos: 800,  category: 'Packaging',   price_history: [] },
+];
+
 export const KPI_TARGETS = {
   product_bibles_complete: 50,
   recipe_costings_complete: 50,

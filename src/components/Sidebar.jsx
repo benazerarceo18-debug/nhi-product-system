@@ -1,17 +1,19 @@
 import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard, BookOpen, Calculator, ClipboardCheck,
-  Trash2, ShieldAlert, BarChart3,
+  Trash2, ShieldAlert, BarChart3, ShoppingCart, TrendingUp,
 } from 'lucide-react';
 
 const NAV = [
-  { to: '/',         label: 'Dashboard',      icon: LayoutDashboard },
+  { to: '/',         label: 'Dashboard',       icon: LayoutDashboard },
   { to: '/skus',     label: 'Product Bibles',  icon: BookOpen },
   { to: '/costing',  label: 'Recipe Costing',  icon: Calculator },
+  { to: '/market',   label: 'Market List',     icon: ShoppingCart },
+  { to: '/sales',    label: 'Sales Tracker',   icon: TrendingUp },
   { to: '/qc',       label: 'QC Audit',        icon: ClipboardCheck },
-  { to: '/waste',    label: 'Waste Log',        icon: Trash2 },
-  { to: '/allergen', label: 'Allergen Matrix',  icon: ShieldAlert },
-  { to: '/kpi',      label: 'KPI Tracker',      icon: BarChart3 },
+  { to: '/waste',    label: 'Waste Log',       icon: Trash2 },
+  { to: '/allergen', label: 'Allergen Matrix', icon: ShieldAlert },
+  { to: '/kpi',      label: 'KPI Tracker',     icon: BarChart3 },
 ];
 
 export default function Sidebar() {
