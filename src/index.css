@@ -7,14 +7,43 @@
   --red: #c0392b;
   --gold: #d4a843;
   --light: #f5f6fa;
+
+  /* Brand Colors */
+  --kazu-green: #4a7c59;
+  --kazu-cream: #f5f0e8;
+  --mendo-red: #8b2500;
+  --mendo-charcoal: #2d2d2d;
+  --yusho-brown: #5c3a1e;
+  --yusho-amber: #c8952e;
+  --kazn-red: #8b0000;
+  --kazn-gold: #c5a059;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: var(--light);
   color: #1a1f36;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* Sidebar gradient */
+.sidebar-gradient {
+  background: linear-gradient(180deg, #1a1f36 0%, #0f1225 100%);
+}
+
+/* Brand accent bar for cards */
+.brand-accent-kazu { border-left: 4px solid var(--kazu-green); }
+.brand-accent-mendokoro { border-left: 4px solid var(--mendo-red); }
+.brand-accent-yushoken { border-left: 4px solid var(--yusho-brown); }
+.brand-accent-kazunori { border-left: 4px solid var(--kazn-red); }
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
 
 @media print {
   .no-print { display: none !important; }

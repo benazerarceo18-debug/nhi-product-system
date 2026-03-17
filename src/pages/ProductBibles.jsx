@@ -3,6 +3,7 @@ import { BRANDS, BRAND_LABELS, ALLERGEN_FIELDS } from '../data/seed';
 import { isValidSKU, formatPeso } from '../utils/calculations';
 import useSkuStore from '../store/skuStore';
 import { BookOpen, ChevronRight, Plus, X, AlertCircle } from 'lucide-react';
+import { BrandIcon, BRAND_COLORS } from '../components/BrandLogos';
 
 const CATEGORIES = ['beverage', 'dessert', 'appetizer', 'ramen', 'main', 'side'];
 
@@ -278,8 +279,8 @@ export default function ProductBibles() {
     if (!sku) { setSelectedSku(null); return null; }
     return (
       <div>
-        <button onClick={() => setSelectedSku(null)} className="text-sm text-gold hover:text-gold/80 mb-4">&larr; Back to SKU list</button>
-        <div className="bg-white rounded-lg border p-6">
+        <button onClick={() => setSelectedSku(null)} className="text-xs text-gray-400 hover:text-navy mb-4 flex items-center gap-1 transition-colors">&larr; Back to SKU list</button>
+        <div className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm">
           <BibleForm sku={sku} />
         </div>
       </div>
@@ -304,39 +305,51 @@ export default function ProductBibles() {
 
   return (
     <div>
-      <div className="flex items-center gap-3 mb-4">
-        <select value={brandFilter} onChange={e => setBrandFilter(e.target.value)} className="border rounded px-3 py-2 text-sm">
-          <option value="all">All Brands</option>
-          {BRANDS.map(b => <option key={b} value={b}>{BRAND_LABELS[b]}</option>)}
-        </select>
-        <span className="text-xs text-gray-500">{filtered.length} products</span>
+      <div className="flex items-center gap-3 mb-5">
+        <div className="flex gap-1.5">
+          <button onClick={() => setBrandFilter('all')} className={`px-3 py-1.5 text-xs rounded-lg transition-colors ${brandFilter === 'all' ? 'bg-navy text-white' : 'bg-white border border-gray-100 text-gray-500 hover:bg-gray-50'}`}>All Brands</button>
+          {BRANDS.map(b => {
+            const bc = BRAND_COLORS[b];
+            return (
+              <button key={b} onClick={() => setBrandFilter(b)} className={`px-3 py-1.5 text-xs rounded-lg transition-colors flex items-center gap-1.5 ${brandFilter === b ? 'text-white' : 'bg-white border border-gray-100 text-gray-500 hover:bg-gray-50'}`} style={brandFilter === b ? { background: bc.primary } : {}}>
+                <BrandIcon brand={b} size={14} />
+                {BRAND_LABELS[b]}
+              </button>
+            );
+          })}
+        </div>
+        <span className="text-[11px] text-gray-400">{filtered.length} products</span>
         <button
           onClick={() => setShowAddForm(true)}
-          className="ml-auto bg-gold text-white px-4 py-2 rounded text-sm font-medium hover:bg-gold/90 flex items-center gap-2"
+          className="ml-auto bg-navy text-white px-4 py-2 rounded-lg text-xs font-medium hover:bg-navy/90 flex items-center gap-2"
         >
-          <Plus size={16} /> Add New Product
+          <Plus size={14} /> Add New Product
         </button>
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {filtered.map(sku => (
-          <button
-            key={sku.sku_code}
-            onClick={() => setSelectedSku(sku.sku_code)}
-            className="bg-white rounded-lg border p-4 text-left hover:border-gold transition-colors group"
-          >
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-mono text-gray-400">{sku.sku_code}</span>
-              <ChevronRight size={14} className="text-gray-300 group-hover:text-gold" />
-            </div>
-            <p className="font-medium mt-1">{sku.product_name}</p>
-            <div className="flex items-center gap-2 mt-2">
-              <span className="text-[10px] bg-gray-100 px-1.5 py-0.5 rounded">{BRAND_LABELS[sku.brand]}</span>
-              <span className="text-[10px] bg-gray-100 px-1.5 py-0.5 rounded capitalize">{sku.category}</span>
-              <span className="text-[10px] text-gray-400 ml-auto">{formatPeso(sku.selling_price)}</span>
-            </div>
-          </button>
-        ))}
+        {filtered.map(sku => {
+          const bc = BRAND_COLORS[sku.brand];
+          return (
+            <button
+              key={sku.sku_code}
+              onClick={() => setSelectedSku(sku.sku_code)}
+              className={`bg-white rounded-xl border border-gray-100 p-4 text-left hover:shadow-md transition-all group brand-accent-${sku.brand}`}
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-mono text-gray-400 tracking-wider">{sku.sku_code}</span>
+                <ChevronRight size={14} className="text-gray-200 group-hover:text-gold transition-colors" />
+              </div>
+              <p className="font-semibold mt-1.5 text-navy">{sku.product_name}</p>
+              <div className="flex items-center gap-2 mt-2.5">
+                <BrandIcon brand={sku.brand} size={18} />
+                <span className="text-[10px] font-medium" style={{ color: bc?.primary }}>{BRAND_LABELS[sku.brand]}</span>
+                <span className="text-[10px] bg-gray-50 px-1.5 py-0.5 rounded capitalize text-gray-400">{sku.category}</span>
+                <span className="text-[10px] text-gray-400 ml-auto font-mono">{formatPeso(sku.selling_price)}</span>
+              </div>
+            </button>
+          );
+        })}
       </div>
     </div>
   );

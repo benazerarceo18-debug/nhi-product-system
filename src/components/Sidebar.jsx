@@ -3,6 +3,7 @@ import {
   LayoutDashboard, BookOpen, Calculator, ClipboardCheck,
   Trash2, ShieldAlert, BarChart3, ShoppingCart, TrendingUp,
 } from 'lucide-react';
+import { NHILogo } from './BrandLogos';
 
 const NAV = [
   { to: '/',         label: 'Dashboard',       icon: LayoutDashboard },
@@ -18,32 +19,60 @@ const NAV = [
 
 export default function Sidebar() {
   return (
-    <aside className="w-56 min-h-screen bg-navy text-white flex flex-col no-print">
-      <div className="p-4 border-b border-white/10">
-        <h1 className="text-lg font-bold tracking-wide text-gold">NHI</h1>
-        <p className="text-xs text-white/50">Product System</p>
+    <aside className="w-60 min-h-screen sidebar-gradient text-white flex flex-col no-print">
+      {/* NHI Logo */}
+      <div className="px-5 pt-5 pb-4 border-b border-white/8">
+        <NHILogo size={32} />
+        <p className="text-[10px] text-white/30 mt-1.5 tracking-widest uppercase font-light">Product System</p>
       </div>
-      <nav className="flex-1 py-2">
-        {NAV.map(({ to, label, icon: Icon }) => (
+
+      {/* Navigation */}
+      <nav className="flex-1 py-3 px-2">
+        <p className="text-[10px] text-white/25 uppercase tracking-wider px-3 mb-2 font-medium">Operations</p>
+        {NAV.slice(0, 5).map(({ to, label, icon: Icon }) => (
           <NavLink
             key={to}
             to={to}
             end={to === '/'}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${
+              `flex items-center gap-3 px-3 py-2 text-[13px] rounded-lg mb-0.5 transition-all ${
                 isActive
-                  ? 'bg-gold/20 text-gold border-r-2 border-gold font-medium'
-                  : 'text-white/70 hover:bg-white/5 hover:text-white'
+                  ? 'bg-gold/15 text-gold font-medium shadow-sm shadow-gold/5'
+                  : 'text-white/50 hover:bg-white/5 hover:text-white/80'
               }`
             }
           >
-            <Icon size={18} />
+            <Icon size={16} strokeWidth={isActive => isActive ? 2.5 : 1.5} />
+            {label}
+          </NavLink>
+        ))}
+
+        <p className="text-[10px] text-white/25 uppercase tracking-wider px-3 mt-4 mb-2 font-medium">Quality & Compliance</p>
+        {NAV.slice(5).map(({ to, label, icon: Icon }) => (
+          <NavLink
+            key={to}
+            to={to}
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-3 py-2 text-[13px] rounded-lg mb-0.5 transition-all ${
+                isActive
+                  ? 'bg-gold/15 text-gold font-medium shadow-sm shadow-gold/5'
+                  : 'text-white/50 hover:bg-white/5 hover:text-white/80'
+              }`
+            }
+          >
+            <Icon size={16} />
             {label}
           </NavLink>
         ))}
       </nav>
-      <div className="p-4 border-t border-white/10 text-xs text-white/30">
-        v1.0 — Foundation Year 2026
+
+      {/* Footer */}
+      <div className="px-4 py-3 border-t border-white/5">
+        <div className="flex items-center gap-2">
+          <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+          <span className="text-[10px] text-white/30">Phase 2 Active</span>
+        </div>
+        <p className="text-[10px] text-white/20 mt-1">Foundation Year 2026 · v2.0</p>
       </div>
     </aside>
   );
