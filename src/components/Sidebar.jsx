@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard, BookOpen, Calculator, ClipboardCheck,
-  Trash2, ShieldAlert, BarChart3, ShoppingCart, TrendingUp,
+  Trash2, ShieldAlert, BarChart3, ShoppingCart, TrendingUp, GlassWater,
 } from 'lucide-react';
 import { NHILogo } from './BrandLogos';
 
@@ -11,6 +11,7 @@ const NAV = [
   { to: '/costing',  label: 'Recipe Costing',  icon: Calculator },
   { to: '/market',   label: 'Market List',     icon: ShoppingCart },
   { to: '/sales',    label: 'Sales Tracker',   icon: TrendingUp },
+  { to: '/vessels',  label: 'Vessels',         icon: GlassWater },
   { to: '/qc',       label: 'QC Audit',        icon: ClipboardCheck },
   { to: '/waste',    label: 'Waste Log',       icon: Trash2 },
   { to: '/allergen', label: 'Allergen Matrix', icon: ShieldAlert },
@@ -29,7 +30,7 @@ export default function Sidebar() {
       {/* Navigation */}
       <nav className="flex-1 py-3 px-2">
         <p className="text-[10px] text-white/25 uppercase tracking-wider px-3 mb-2 font-medium">Operations</p>
-        {NAV.slice(0, 5).map(({ to, label, icon: Icon }) => (
+        {NAV.slice(0, 6).map(({ to, label, icon: Icon }) => (
           <NavLink
             key={to}
             to={to}
@@ -48,7 +49,7 @@ export default function Sidebar() {
         ))}
 
         <p className="text-[10px] text-white/25 uppercase tracking-wider px-3 mt-4 mb-2 font-medium">Quality & Compliance</p>
-        {NAV.slice(5).map(({ to, label, icon: Icon }) => (
+        {NAV.slice(6).map(({ to, label, icon: Icon }) => (
           <NavLink
             key={to}
             to={to}

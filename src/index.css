@@ -38,6 +38,8 @@ body {
 .brand-accent-mendokoro { border-left: 4px solid var(--mendo-red); }
 .brand-accent-yushoken { border-left: 4px solid var(--yusho-brown); }
 .brand-accent-kazunori { border-left: 4px solid var(--kazn-red); }
+.brand-accent-marudori { border-left: 4px solid #3d3d3d; }
+.brand-accent-food_truck { border-left: 4px solid #92610a; }
 
 /* Scrollbar styling */
 ::-webkit-scrollbar { width: 6px; }

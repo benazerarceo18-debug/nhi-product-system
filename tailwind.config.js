@@ -33,6 +33,16 @@ export default {
           gold: '#c5a059',
           slate: '#334155',
         },
+        maru: {
+          charcoal: '#3d3d3d',
+          gray: '#666666',
+          light: '#f5f5f5',
+        },
+        ftruck: {
+          brown: '#92610a',
+          amber: '#c8952e',
+          cream: '#fdf8f0',
+        },
       },
     },
   },

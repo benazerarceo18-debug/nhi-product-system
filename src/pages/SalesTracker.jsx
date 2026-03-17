@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { BRANDS, BRAND_LABELS } from '../data/seed';
+import { BRANDS, BRAND_LABELS, LOCATIONS } from '../data/seed';
 import useSkuStore from '../store/skuStore';
 import useRecipeStore from '../store/recipeStore';
 import useSalesStore from '../store/salesStore';
@@ -70,13 +70,16 @@ export default function SalesTracker() {
         </div>
         <div>
           <label className="text-xs text-gray-500 block mb-1">Brand</label>
-          <select value={brand} onChange={e => { setBrand(e.target.value); setQtys({}); }} className="border rounded px-3 py-2 text-sm w-full">
+          <select value={brand} onChange={e => { setBrand(e.target.value); setQtys({}); setLocation(''); }} className="border rounded px-3 py-2 text-sm w-full">
             {BRANDS.map(b => <option key={b} value={b}>{BRAND_LABELS[b]}</option>)}
           </select>
         </div>
         <div>
           <label className="text-xs text-gray-500 block mb-1">Location</label>
-          <input value={location} onChange={e => setLocation(e.target.value)} placeholder="e.g. Ayala Triangle" className="border rounded px-3 py-2 text-sm w-full" />
+          <select value={location} onChange={e => setLocation(e.target.value)} className="border rounded px-3 py-2 text-sm w-full">
+            <option value="">Select location...</option>
+            {(LOCATIONS[brand] || []).map(loc => <option key={loc.id} value={loc.id}>{loc.name}</option>)}
+          </select>
         </div>
         <div>
           <label className="text-xs text-gray-500 block mb-1">Entered By</label>

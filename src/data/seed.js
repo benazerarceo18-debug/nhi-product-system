@@ -4,20 +4,48 @@
  * Foundation Year 2026, Version 1.0
  */
 
-export const BRANDS = ['kazu_cafe', 'mendokoro', 'yushoken', 'kazunori'];
+export const BRANDS = ['kazu_cafe', 'mendokoro', 'yushoken', 'kazunori', 'marudori', 'food_truck'];
 
 export const BRAND_LABELS = {
   kazu_cafe:  'Kazu Café',
   mendokoro:  'Mendokoro',
   yushoken:   'Yushoken',
   kazunori:   'Kazunori',
+  marudori:   'Marudori Ramenba',
+  food_truck: 'Food Truck',
 };
 
 export const BRAND_SKU_TARGETS = {
-  kazu_cafe: 13,
-  mendokoro: 15,
-  yushoken:  12,
-  kazunori:  10,
+  kazu_cafe:  13,
+  mendokoro:  15,
+  yushoken:   12,
+  kazunori:   10,
+  marudori:   8,
+  food_truck: 5,
+};
+
+export const LOCATIONS = {
+  kazu_cafe:  [{ id: 'kzc-ayala',     name: 'Ayala Triangle',  short: 'Ayala' }],
+  mendokoro:  [
+    { id: 'mdk-makati',    name: 'Makati',      short: 'Makati' },
+    { id: 'mdk-bgc',       name: 'BGC',         short: 'BGC' },
+    { id: 'mdk-alabang',   name: 'Alabang',     short: 'Alabang' },
+    { id: 'mdk-pasay',     name: 'Pasay',       short: 'Pasay' },
+    { id: 'mdk-cebu',      name: 'Cebu',        short: 'Cebu' },
+    { id: 'mdk-katipunan', name: 'Katipunan',   short: 'Katipunan' },
+  ],
+  yushoken:   [
+    { id: 'ysk-alabang',   name: 'Alabang',     short: 'Alabang' },
+    { id: 'ysk-cebu',      name: 'Cebu',        short: 'Cebu' },
+    { id: 'ysk-ortigas',   name: 'Ortigas',     short: 'Ortigas' },
+    { id: 'ysk-panay',     name: 'Panay',       short: 'Panay' },
+  ],
+  kazunori:   [{ id: 'kzn-makati',    name: 'Makati',      short: 'Makati' }],
+  marudori:   [
+    { id: 'mrd-vcorp',     name: 'VCorp (Makati)', short: 'VCorp' },
+    { id: 'mrd-rockwell',  name: 'Rockwell',    short: 'Rockwell' },
+  ],
+  food_truck: [{ id: 'ft-mobile',     name: 'Mobile (Yushoken-branded)', short: 'Mobile' }],
 };
 
 export const INITIAL_SKUS = [
@@ -58,6 +86,26 @@ export const INITIAL_SKUS = [
     allergens:{ eggs:true, wheat:true, soy:true }, selling_price:49000 },
   { sku_code:'RMN-MISO-001', product_name:'Miso Ramen',             brand:'yushoken',   category:'ramen',    status:'active',
     allergens:{ eggs:true, wheat:true, soy:true }, selling_price:52000 },
+  // ── MARUDORI RAMENBA ──
+  { sku_code:'RMN-TNKT-001', product_name:'Tonkotsu Ramen',        brand:'marudori',   category:'ramen',    status:'active',
+    allergens:{ eggs:true, wheat:true, soy:true }, selling_price:48000 },
+  { sku_code:'RMN-TSUK-001', product_name:'Tsukemen',               brand:'marudori',   category:'ramen',    status:'active',
+    allergens:{ eggs:true, fish:true, wheat:true, soy:true }, selling_price:52000 },
+  { sku_code:'MAIN-CHSH-001', product_name:'Chashu Don',            brand:'marudori',   category:'main',     status:'active',
+    allergens:{ eggs:true, soy:true }, selling_price:38000 },
+  { sku_code:'APP-GYOZA-002', product_name:'Gyoza (6pcs)',          brand:'marudori',   category:'appetizer', status:'active',
+    allergens:{ wheat:true, soy:true }, selling_price:22000 },
+  { sku_code:'APP-KRG-001', product_name:'Karaage',                 brand:'marudori',   category:'appetizer', status:'active',
+    allergens:{ eggs:true, wheat:true, soy:true }, selling_price:26000 },
+  { sku_code:'BEV-BIRU-001', product_name:'Draft Beer',             brand:'marudori',   category:'beverage', status:'active',
+    allergens:{ wheat:true }, selling_price:22000 },
+  // ── FOOD TRUCK ──
+  { sku_code:'RMN-TNKT-002', product_name:'Tonkotsu Ramen (Truck)', brand:'food_truck', category:'ramen',   status:'active',
+    allergens:{ eggs:true, wheat:true, soy:true }, selling_price:35000 },
+  { sku_code:'APP-KRG-002', product_name:'Karaage Cup (Truck)',      brand:'food_truck', category:'appetizer', status:'active',
+    allergens:{ eggs:true, wheat:true, soy:true }, selling_price:18000 },
+  { sku_code:'BEV-BIRU-002', product_name:'Canned Beer (Truck)',     brand:'food_truck', category:'beverage', status:'active',
+    allergens:{ wheat:true }, selling_price:15000 },
 ];
 
 export const SUPPLIERS = [
@@ -114,6 +162,66 @@ export const INITIAL_MARKET_ITEMS = [
   { id: 'm10', name: 'Chicken Thigh (Boneless)',     supplier_id: 3, unit: 'g',   unit_size: '1kg pack',      price_centavos: 45,   category: 'Protein',     price_history: [] },
   { id: 'm11', name: 'Chashu Pork Belly',           supplier_id: 3, unit: 'g',   unit_size: '1kg slab',      price_centavos: 55,   category: 'Protein',     price_history: [] },
   { id: 'm12', name: '16oz Cup + Lid',              supplier_id: 4, unit: 'pc',  unit_size: '50pc sleeve',   price_centavos: 800,  category: 'Packaging',   price_history: [] },
+];
+
+export const VESSEL_CATEGORIES = ['All', 'Glassware', 'Bowl', 'Plate', 'Container', 'Cup', 'Bag', 'Utensil', 'Sauce', 'Seal/Wrap', 'Accessory'];
+
+export const INITIAL_VESSELS = [
+  // Glassware
+  { code: 'VES-GL-001', category: 'Glassware', item: 'Latte Glass 12oz',          size: '12oz',  material: 'Tempered Glass', supplier: 'Japanese Imports Co.', cost_centavos: 18000, eco: false, status: 'active' },
+  { code: 'VES-GL-002', category: 'Glassware', item: 'Iced Drink Glass 16oz',     size: '16oz',  material: 'Tempered Glass', supplier: 'Japanese Imports Co.', cost_centavos: 22000, eco: false, status: 'active' },
+  { code: 'VES-GL-003', category: 'Glassware', item: 'Beer Glass Pilsner',        size: '14oz',  material: 'Glass',          supplier: 'Japanese Imports Co.', cost_centavos: 15000, eco: false, status: 'active' },
+  { code: 'VES-GL-004', category: 'Glassware', item: 'Water Glass',               size: '10oz',  material: 'Glass',          supplier: 'Japanese Imports Co.', cost_centavos: 8000,  eco: false, status: 'active' },
+  // Bowls
+  { code: 'VES-BW-001', category: 'Bowl', item: 'Ramen Bowl (Large)',             size: '1100ml', material: 'Ceramic',        supplier: 'Japanese Imports Co.', cost_centavos: 45000, eco: false, status: 'active' },
+  { code: 'VES-BW-002', category: 'Bowl', item: 'Ramen Bowl (Regular)',           size: '900ml',  material: 'Ceramic',        supplier: 'Japanese Imports Co.', cost_centavos: 38000, eco: false, status: 'active' },
+  { code: 'VES-BW-003', category: 'Bowl', item: 'Tsukemen Noodle Plate',         size: '250mm',  material: 'Ceramic',        supplier: 'Japanese Imports Co.', cost_centavos: 35000, eco: false, status: 'active' },
+  { code: 'VES-BW-004', category: 'Bowl', item: 'Tsukemen Dipping Bowl',         size: '400ml',  material: 'Ceramic',        supplier: 'Japanese Imports Co.', cost_centavos: 28000, eco: false, status: 'active' },
+  { code: 'VES-BW-005', category: 'Bowl', item: 'Rice Bowl (Donburi)',           size: '500ml',  material: 'Ceramic',        supplier: 'Japanese Imports Co.', cost_centavos: 25000, eco: false, status: 'active' },
+  { code: 'VES-BW-006', category: 'Bowl', item: 'Side Dish Bowl',               size: '200ml',  material: 'Ceramic',        supplier: 'Japanese Imports Co.', cost_centavos: 12000, eco: false, status: 'active' },
+  { code: 'VES-BW-007', category: 'Bowl', item: 'Ice Cream Cup (Ceramic)',      size: '150ml',  material: 'Ceramic',        supplier: 'Japanese Imports Co.', cost_centavos: 15000, eco: false, status: 'active' },
+  // Plates
+  { code: 'VES-PL-001', category: 'Plate', item: 'Gyoza Plate (Rectangular)',    size: '280x150mm', material: 'Ceramic',     supplier: 'Japanese Imports Co.', cost_centavos: 22000, eco: false, status: 'active' },
+  { code: 'VES-PL-002', category: 'Plate', item: 'Karaage Plate',               size: '220mm',   material: 'Ceramic',       supplier: 'Japanese Imports Co.', cost_centavos: 18000, eco: false, status: 'active' },
+  { code: 'VES-PL-003', category: 'Plate', item: 'Pizza Plate (Wood Board)',    size: '300mm',   material: 'Acacia Wood',   supplier: 'Japanese Imports Co.', cost_centavos: 35000, eco: true,  status: 'active' },
+  { code: 'VES-PL-004', category: 'Plate', item: 'Edamame Plate',              size: '180mm',   material: 'Ceramic',       supplier: 'Japanese Imports Co.', cost_centavos: 12000, eco: false, status: 'active' },
+  // Containers (Takeout)
+  { code: 'VES-CT-001', category: 'Container', item: 'Ramen Takeout Bowl 32oz',  size: '32oz',  material: 'PP Plastic',     supplier: 'Green Pack Solutions', cost_centavos: 1500, eco: false, status: 'active' },
+  { code: 'VES-CT-002', category: 'Container', item: 'Ramen Takeout Bowl (Eco)', size: '32oz',  material: 'Bagasse',        supplier: 'Green Pack Solutions', cost_centavos: 2500, eco: true,  status: 'active' },
+  { code: 'VES-CT-003', category: 'Container', item: 'Rice Box Container',       size: '24oz',  material: 'Kraft Paper',    supplier: 'Green Pack Solutions', cost_centavos: 1200, eco: true,  status: 'active' },
+  { code: 'VES-CT-004', category: 'Container', item: 'Appetizer Container',      size: '16oz',  material: 'PP Plastic',     supplier: 'Packaging Plus',       cost_centavos: 800,  eco: false, status: 'active' },
+  { code: 'VES-CT-005', category: 'Container', item: 'Ice Cream Takeout Cup',    size: '8oz',   material: 'Paper',          supplier: 'Packaging Plus',       cost_centavos: 600,  eco: true,  status: 'active' },
+  { code: 'VES-CT-006', category: 'Container', item: 'Noodle Separator Cup',     size: '12oz',  material: 'PP Plastic',     supplier: 'Packaging Plus',       cost_centavos: 500,  eco: false, status: 'active' },
+  { code: 'VES-CT-007', category: 'Container', item: 'Pizza Box',                size: '12"',   material: 'Corrugated',     supplier: 'Green Pack Solutions', cost_centavos: 2000, eco: true,  status: 'active' },
+  // Cups
+  { code: 'VES-CU-001', category: 'Cup', item: 'Hot Cup 12oz',                   size: '12oz',  material: 'Paper + PLA',    supplier: 'Cup Masters',          cost_centavos: 700,  eco: true,  status: 'active' },
+  { code: 'VES-CU-002', category: 'Cup', item: 'Cold Cup 16oz',                  size: '16oz',  material: 'PET Plastic',    supplier: 'Cup Masters',          cost_centavos: 800,  eco: false, status: 'active' },
+  { code: 'VES-CU-003', category: 'Cup', item: 'Cold Cup 22oz',                  size: '22oz',  material: 'PET Plastic',    supplier: 'Cup Masters',          cost_centavos: 1000, eco: false, status: 'active' },
+  { code: 'VES-CU-004', category: 'Cup', item: 'Soup Cup 8oz',                   size: '8oz',   material: 'Paper',          supplier: 'Cup Masters',          cost_centavos: 500,  eco: true,  status: 'active' },
+  { code: 'VES-CU-005', category: 'Cup', item: 'Karaage Cup (Truck)',            size: '12oz',  material: 'Kraft Paper',    supplier: 'Cup Masters',          cost_centavos: 600,  eco: true,  status: 'active' },
+  // Bags
+  { code: 'VES-BG-001', category: 'Bag', item: 'Takeout Bag (Small)',            size: 'S',     material: 'Kraft Paper',    supplier: 'Paper Products Inc.',  cost_centavos: 500,  eco: true,  status: 'active' },
+  { code: 'VES-BG-002', category: 'Bag', item: 'Takeout Bag (Large)',            size: 'L',     material: 'Kraft Paper',    supplier: 'Paper Products Inc.',  cost_centavos: 800,  eco: true,  status: 'active' },
+  { code: 'VES-BG-003', category: 'Bag', item: 'Branded Bag (Premium)',          size: 'M',     material: 'Laminated Paper', supplier: 'Paper Products Inc.', cost_centavos: 2500, eco: false, status: 'active' },
+  // Utensils
+  { code: 'VES-UT-001', category: 'Utensil', item: 'Chopsticks (Reusable)',      size: '23cm',  material: 'Melamine',       supplier: 'Japanese Imports Co.', cost_centavos: 5000, eco: true,  status: 'active' },
+  { code: 'VES-UT-002', category: 'Utensil', item: 'Chopsticks (Disposable)',    size: '21cm',  material: 'Bamboo',         supplier: 'Paper Products Inc.',  cost_centavos: 200,  eco: true,  status: 'active' },
+  { code: 'VES-UT-003', category: 'Utensil', item: 'Ramen Spoon (Ceramic)',      size: 'Std',   material: 'Ceramic',        supplier: 'Japanese Imports Co.', cost_centavos: 8000, eco: false, status: 'active' },
+  { code: 'VES-UT-004', category: 'Utensil', item: 'Ramen Spoon (Disposable)',   size: 'Std',   material: 'PP Plastic',     supplier: 'Packaging Plus',       cost_centavos: 150,  eco: false, status: 'active' },
+  { code: 'VES-UT-005', category: 'Utensil', item: 'Fork/Knife Set (Disposable)', size: 'Std',  material: 'CPLA',           supplier: 'Green Pack Solutions', cost_centavos: 350,  eco: true,  status: 'active' },
+  // Sauce Cups
+  { code: 'VES-SC-001', category: 'Sauce', item: 'Sauce Dish (Dine-in)',         size: '60ml',  material: 'Ceramic',        supplier: 'Japanese Imports Co.', cost_centavos: 6000, eco: false, status: 'active' },
+  { code: 'VES-SC-002', category: 'Sauce', item: 'Sauce Cup (Takeout) 2oz',     size: '2oz',   material: 'PP Plastic',     supplier: 'Packaging Plus',       cost_centavos: 150,  eco: false, status: 'active' },
+  { code: 'VES-SC-003', category: 'Sauce', item: 'Sauce Cup (Takeout) 4oz',     size: '4oz',   material: 'PP Plastic',     supplier: 'Packaging Plus',       cost_centavos: 200,  eco: false, status: 'active' },
+  // Seals/Wraps
+  { code: 'VES-SW-001', category: 'Seal/Wrap', item: 'Cup Seal Film',            size: '95mm',  material: 'PP Film',        supplier: 'Cup Masters',          cost_centavos: 100,  eco: false, status: 'active' },
+  { code: 'VES-SW-002', category: 'Seal/Wrap', item: 'Cling Wrap Roll',          size: '300m',  material: 'PVC',            supplier: 'Packaging Plus',       cost_centavos: 25000, eco: false, status: 'active' },
+  { code: 'VES-SW-003', category: 'Seal/Wrap', item: 'Tamper-Evident Sticker',   size: '50mm',  material: 'Paper',          supplier: 'Paper Products Inc.',  cost_centavos: 50,   eco: true,  status: 'active' },
+  // Accessories
+  { code: 'VES-AC-001', category: 'Accessory', item: 'Tray Liner (Branded)',     size: 'A4',    material: 'Paper',          supplier: 'Paper Products Inc.',  cost_centavos: 300,  eco: true,  status: 'active' },
+  { code: 'VES-AC-002', category: 'Accessory', item: 'Napkin (Branded)',          size: '1-ply', material: 'Paper',          supplier: 'Paper Products Inc.',  cost_centavos: 100,  eco: true,  status: 'active' },
+  { code: 'VES-AC-003', category: 'Accessory', item: 'Wet Towel (Oshibori)',    size: 'Std',   material: 'Cotton',         supplier: 'Japanese Imports Co.', cost_centavos: 1500, eco: true,  status: 'active' },
+  { code: 'VES-AC-004', category: 'Accessory', item: 'Toothpick (Bamboo)',      size: '65mm',  material: 'Bamboo',         supplier: 'Paper Products Inc.',  cost_centavos: 30,   eco: true,  status: 'active' },
 ];
 
 export const KPI_TARGETS = {

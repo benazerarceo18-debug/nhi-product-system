@@ -7,8 +7,8 @@ import { AlertTriangle, TrendingUp, Package, Users, Target } from 'lucide-react'
 const PHASES = [
   { phase: 1, name: 'Pilot',    scope: 'Kazu Café Ayala Triangle (13 SKUs)', status: 'done',    weeks: '1–4' },
   { phase: 2, name: 'Expand',   scope: 'Mendokoro all locations (15 SKUs)',   status: 'active',  weeks: '5–8' },
-  { phase: 3, name: 'Scale',    scope: 'Yushoken + Kazunori (20 SKUs)',       status: 'pending', weeks: '9–12' },
-  { phase: 4, name: 'Optimize', scope: 'All brands + continuous improvement', status: 'pending', weeks: '13+' },
+  { phase: 3, name: 'Scale',    scope: 'Yushoken + Kazunori + Marudori (30 SKUs)', status: 'pending', weeks: '9–12' },
+  { phase: 4, name: 'Optimize', scope: 'All 6 brands + Food Truck + continuous improvement', status: 'pending', weeks: '13+' },
 ];
 
 function StatCard({ label, value, sub, icon: Icon, color = '#1a1f36' }) {
@@ -41,13 +41,13 @@ export default function Dashboard() {
       {/* Stat Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <StatCard label="Total SKUs" value={totalSkus} sub={`Target: ${KPI_TARGETS.product_bibles_complete}`} icon={Package} />
-        <StatCard label="Active Brands" value={activeBrands} sub="of 4 total" icon={Users} color="#4a7c59" />
+        <StatCard label="Active Brands" value={activeBrands} sub="of 6 total" icon={Users} color="#4a7c59" />
         <StatCard label="Current Phase" value="2" sub="Mendokoro Expansion" icon={TrendingUp} color="#d4a843" />
         <StatCard label="QC Target" value="90%+" sub="Avg audit score" icon={Target} color="#8b2500" />
       </div>
 
       {/* Brand Progress Cards */}
-      <div className="grid md:grid-cols-4 gap-4 mb-6">
+      <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
         {BRANDS.map(b => {
           const count = allSkus.filter(s => s.brand === b).length;
           const target = BRAND_SKU_TARGETS[b];

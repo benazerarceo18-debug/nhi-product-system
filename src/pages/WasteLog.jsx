@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BRANDS, BRAND_LABELS } from '../data/seed';
+import { BRANDS, BRAND_LABELS, LOCATIONS } from '../data/seed';
 import { calcWasteTotal, getWasteStatus, formatPeso, formatPct } from '../utils/calculations';
 import { Plus, Trash2, Save } from 'lucide-react';
 
@@ -41,13 +41,16 @@ export default function WasteLog() {
         </div>
         <div>
           <label className="text-xs text-gray-500 block mb-1">Brand</label>
-          <select value={brand} onChange={e => setBrand(e.target.value)} className="w-full border rounded px-3 py-2 text-sm">
+          <select value={brand} onChange={e => { setBrand(e.target.value); setLocation(''); }} className="w-full border rounded px-3 py-2 text-sm">
             {BRANDS.map(b => <option key={b} value={b}>{BRAND_LABELS[b]}</option>)}
           </select>
         </div>
         <div>
           <label className="text-xs text-gray-500 block mb-1">Location</label>
-          <input value={location} onChange={e => setLocation(e.target.value)} placeholder="e.g. BGC" className="w-full border rounded px-3 py-2 text-sm" />
+          <select value={location} onChange={e => setLocation(e.target.value)} className="w-full border rounded px-3 py-2 text-sm">
+            <option value="">Select location...</option>
+            {(LOCATIONS[brand] || []).map(loc => <option key={loc.id} value={loc.id}>{loc.name}</option>)}
+          </select>
         </div>
         <div>
           <label className="text-xs text-gray-500 block mb-1">Kitchen Manager</label>

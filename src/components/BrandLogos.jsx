@@ -50,10 +50,12 @@ export function NHIMonogram({ size = 32, className = '' }) {
 
 export function BrandIcon({ brand, size = 28 }) {
   const configs = {
-    kazu_cafe: { char: '和', sub: 'カズ', bg: '#4a7c59', text: '#fff' },
-    mendokoro: { char: '麺', sub: 'メン', bg: '#8b2500', text: '#fff' },
-    yushoken:  { char: '勇', sub: 'ユウ', bg: '#5c3a1e', text: '#fff' },
-    kazunori:  { char: '一', sub: 'カズ', bg: '#8b0000', text: '#c5a059' },
+    kazu_cafe:  { char: '和', sub: 'カズ', bg: '#4a7c59', text: '#fff' },
+    mendokoro:  { char: '麺', sub: 'メン', bg: '#8b2500', text: '#fff' },
+    yushoken:   { char: '勇', sub: 'ユウ', bg: '#5c3a1e', text: '#fff' },
+    kazunori:   { char: '一', sub: 'カズ', bg: '#8b0000', text: '#c5a059' },
+    marudori:   { char: '丸', sub: 'マル', bg: '#3d3d3d', text: '#fff' },
+    food_truck: { char: '車', sub: 'トラ', bg: '#92610a', text: '#fff' },
   };
   const c = configs[brand] || configs.kazu_cafe;
 
@@ -70,4 +72,6 @@ export const BRAND_COLORS = {
   mendokoro:  { primary: '#8b2500', secondary: '#f7f2ed', accent: '#b33a00', text: '#2d2d2d', label: 'Mendokoro' },
   yushoken:   { primary: '#5c3a1e', secondary: '#faf5ef', accent: '#c8952e', text: '#3d2a12', label: 'Yushoken' },
   kazunori:   { primary: '#8b0000', secondary: '#faf8f5', accent: '#c5a059', text: '#334155', label: 'Kazunori' },
+  marudori:   { primary: '#3d3d3d', secondary: '#f5f5f5', accent: '#666666', text: '#1a1a1a', label: 'Marudori Ramenba' },
+  food_truck: { primary: '#92610a', secondary: '#fdf8f0', accent: '#c8952e', text: '#3d2a12', label: 'Food Truck' },
 };
