@@ -1,4 +1,5 @@
-import { INITIAL_SKUS, BRANDS, BRAND_LABELS, BRAND_SKU_TARGETS, KPI_TARGETS } from '../data/seed';
+import { BRANDS, BRAND_LABELS, BRAND_SKU_TARGETS, KPI_TARGETS } from '../data/seed';
+import useSkuStore from '../store/skuStore';
 
 const PHASES = [
   { phase: 1, name: 'Pilot',    scope: 'Kazu Café Ayala Triangle (13 SKUs)', status: 'done',    weeks: '1–4' },
@@ -18,8 +19,9 @@ function StatCard({ label, value, sub, color = 'navy' }) {
 }
 
 export default function Dashboard() {
-  const totalSkus = INITIAL_SKUS.length;
-  const activeBrands = new Set(INITIAL_SKUS.map(s => s.brand)).size;
+  const allSkus = useSkuStore(s => s.skus);
+  const totalSkus = allSkus.length;
+  const activeBrands = new Set(allSkus.map(s => s.brand)).size;
 
   return (
     <div>
@@ -59,7 +61,7 @@ export default function Dashboard() {
           <h3 className="text-sm font-semibold mb-3">Brand Progress</h3>
           <div className="space-y-4">
             {BRANDS.map(b => {
-              const count = INITIAL_SKUS.filter(s => s.brand === b).length;
+              const count = allSkus.filter(s => s.brand === b).length;
               const target = BRAND_SKU_TARGETS[b];
               const pct = Math.round((count / target) * 100);
               return (

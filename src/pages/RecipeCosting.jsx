@@ -1,17 +1,19 @@
 import { useState } from 'react';
-import { INITIAL_SKUS, BRAND_LABELS } from '../data/seed';
+import { BRAND_LABELS } from '../data/seed';
+import useSkuStore from '../store/skuStore';
 import { calcRecipeTotalCost, calcFoodCostPct, calcGrossMargin, getFCStatus, formatPeso, formatPct } from '../utils/calculations';
 import { Plus, Trash2, Printer } from 'lucide-react';
 
 const EMPTY_ING = { name: '', unit_cost_centavos: 0, qty_per_serving: 0, unit: 'g' };
 
 export default function RecipeCosting() {
-  const [selectedSku, setSelectedSku] = useState(INITIAL_SKUS[0].sku_code);
+  const allSkus = useSkuStore(s => s.skus);
+  const [selectedSku, setSelectedSku] = useState(allSkus[0]?.sku_code || '');
   const [ingredients, setIngredients] = useState([{ ...EMPTY_ING }]);
   const [packaging, setPackaging] = useState(0);
   const [labor, setLabor] = useState(0);
 
-  const sku = INITIAL_SKUS.find(s => s.sku_code === selectedSku);
+  const sku = allSkus.find(s => s.sku_code === selectedSku) || allSkus[0];
   const totalCost = calcRecipeTotalCost(ingredients, packaging * 100, labor * 100);
   const fcPct = calcFoodCostPct(totalCost, sku.selling_price);
   const fcStatus = getFCStatus(fcPct, sku.category);
@@ -29,7 +31,7 @@ export default function RecipeCosting() {
     <div className="max-w-4xl">
       <div className="flex items-center gap-4 mb-4 no-print">
         <select value={selectedSku} onChange={e => setSelectedSku(e.target.value)} className="border rounded px-3 py-2 text-sm">
-          {INITIAL_SKUS.map(s => (
+          {allSkus.map(s => (
             <option key={s.sku_code} value={s.sku_code}>{s.sku_code} — {s.product_name}</option>
           ))}
         </select>

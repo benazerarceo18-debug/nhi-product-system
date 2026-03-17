@@ -1,7 +1,10 @@
 import { useState } from 'react';
-import { INITIAL_SKUS, BRANDS, BRAND_LABELS } from '../data/seed';
+import { BRANDS, BRAND_LABELS, ALLERGEN_FIELDS } from '../data/seed';
 import { isValidSKU, formatPeso } from '../utils/calculations';
-import { BookOpen, ChevronRight } from 'lucide-react';
+import useSkuStore from '../store/skuStore';
+import { BookOpen, ChevronRight, Plus, X, AlertCircle } from 'lucide-react';
+
+const CATEGORIES = ['beverage', 'dessert', 'appetizer', 'ramen', 'main', 'side'];
 
 const TABS = [
   { key: 'brand_identity', label: 'Brand Identity' },
@@ -11,6 +14,152 @@ const TABS = [
   { key: 'compliance', label: 'Compliance' },
   { key: 'digital_assets', label: 'Digital Assets' },
 ];
+
+function NewSkuForm({ onSave, onCancel, preselectedBrand }) {
+  const skus = useSkuStore(s => s.skus);
+  const [form, setForm] = useState({
+    sku_code: '',
+    product_name: '',
+    brand: preselectedBrand !== 'all' ? preselectedBrand : BRANDS[0],
+    category: 'beverage',
+    selling_price: '',
+    allergens: {},
+  });
+  const [errors, setErrors] = useState({});
+
+  const set = (field, val) => setForm({ ...form, [field]: val });
+
+  const toggleAllergen = (key) => {
+    const next = { ...form.allergens };
+    if (next[key]) delete next[key];
+    else next[key] = true;
+    setForm({ ...form, allergens: next });
+  };
+
+  const setAllergenNote = (key, note) => {
+    setForm({ ...form, allergens: { ...form.allergens, [key]: note || true } });
+  };
+
+  const validate = () => {
+    const e = {};
+    if (!form.sku_code.trim()) e.sku_code = 'Required';
+    else if (!isValidSKU(form.sku_code.trim().toUpperCase())) e.sku_code = 'Must be CAT-TYPE-### (e.g. BEV-YML-001)';
+    else if (skus.some(s => s.sku_code === form.sku_code.trim().toUpperCase())) e.sku_code = 'SKU already exists';
+    if (!form.product_name.trim()) e.product_name = 'Required';
+    if (!form.selling_price || Number(form.selling_price) <= 0) e.selling_price = 'Must be > 0';
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
+  const handleSubmit = () => {
+    if (!validate()) return;
+    onSave({
+      sku_code: form.sku_code.trim().toUpperCase(),
+      product_name: form.product_name.trim(),
+      brand: form.brand,
+      category: form.category,
+      selling_price: Math.round(Number(form.selling_price) * 100),
+      allergens: form.allergens,
+    });
+  };
+
+  return (
+    <div className="bg-white rounded-lg border p-6">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="font-semibold flex items-center gap-2">
+          <Plus size={18} className="text-gold" /> Add New Product
+        </h3>
+        <button onClick={onCancel} className="text-gray-400 hover:text-gray-600"><X size={18} /></button>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        <div>
+          <label className="text-xs text-gray-500 block mb-1">SKU Code *</label>
+          <input
+            value={form.sku_code}
+            onChange={e => set('sku_code', e.target.value.toUpperCase())}
+            placeholder="e.g. BEV-YML-002"
+            className={`w-full border rounded px-3 py-2 text-sm font-mono ${errors.sku_code ? 'border-nred' : ''}`}
+          />
+          {errors.sku_code && <p className="text-[11px] text-nred mt-1 flex items-center gap-1"><AlertCircle size={12} />{errors.sku_code}</p>}
+          <p className="text-[10px] text-gray-400 mt-1">Format: CAT-TYPE-### (e.g. BEV-YML-001, DST-MTCH-002)</p>
+        </div>
+        <div>
+          <label className="text-xs text-gray-500 block mb-1">Product Name *</label>
+          <input
+            value={form.product_name}
+            onChange={e => set('product_name', e.target.value)}
+            placeholder="e.g. Okinawa Milk Tea"
+            className={`w-full border rounded px-3 py-2 text-sm ${errors.product_name ? 'border-nred' : ''}`}
+          />
+          {errors.product_name && <p className="text-[11px] text-nred mt-1 flex items-center gap-1"><AlertCircle size={12} />{errors.product_name}</p>}
+        </div>
+        <div>
+          <label className="text-xs text-gray-500 block mb-1">Brand *</label>
+          <select value={form.brand} onChange={e => set('brand', e.target.value)} className="w-full border rounded px-3 py-2 text-sm">
+            {BRANDS.map(b => <option key={b} value={b}>{BRAND_LABELS[b]}</option>)}
+          </select>
+        </div>
+        <div>
+          <label className="text-xs text-gray-500 block mb-1">Category *</label>
+          <select value={form.category} onChange={e => set('category', e.target.value)} className="w-full border rounded px-3 py-2 text-sm">
+            {CATEGORIES.map(c => <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>)}
+          </select>
+        </div>
+        <div>
+          <label className="text-xs text-gray-500 block mb-1">Selling Price (₱) *</label>
+          <input
+            type="number"
+            value={form.selling_price}
+            onChange={e => set('selling_price', e.target.value)}
+            placeholder="e.g. 280"
+            className={`w-full border rounded px-3 py-2 text-sm ${errors.selling_price ? 'border-nred' : ''}`}
+          />
+          {errors.selling_price && <p className="text-[11px] text-nred mt-1 flex items-center gap-1"><AlertCircle size={12} />{errors.selling_price}</p>}
+          <p className="text-[10px] text-gray-400 mt-1">In pesos (stored as centavos internally)</p>
+        </div>
+      </div>
+
+      <div className="mb-4">
+        <label className="text-xs text-gray-500 block mb-2">Allergens</label>
+        <div className="grid grid-cols-4 gap-2">
+          {ALLERGEN_FIELDS.map(a => {
+            const active = !!form.allergens[a.key];
+            return (
+              <div key={a.key}>
+                <button
+                  type="button"
+                  onClick={() => toggleAllergen(a.key)}
+                  className={`w-full text-left px-2.5 py-1.5 rounded border text-xs flex items-center gap-1.5 transition-colors ${
+                    active ? 'bg-red-50 border-nred/30 text-nred' : 'bg-gray-50 border-gray-200 text-gray-500 hover:border-gray-300'
+                  }`}
+                >
+                  <span>{a.emoji}</span>
+                  <span>{a.label}</span>
+                </button>
+                {active && (
+                  <input
+                    value={typeof form.allergens[a.key] === 'string' ? form.allergens[a.key] : ''}
+                    onChange={e => setAllergenNote(a.key, e.target.value)}
+                    placeholder="Note (optional)"
+                    className="w-full border rounded px-2 py-1 text-[10px] mt-1"
+                  />
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="flex gap-3">
+        <button onClick={handleSubmit} className="bg-navy text-white px-6 py-2.5 rounded text-sm font-medium hover:bg-navy/90 flex items-center gap-2">
+          <Plus size={16} /> Add Product
+        </button>
+        <button onClick={onCancel} className="border px-6 py-2.5 rounded text-sm text-gray-500 hover:bg-gray-50">Cancel</button>
+      </div>
+    </div>
+  );
+}
 
 function BibleForm({ sku }) {
   const [tab, setTab] = useState('brand_identity');
@@ -97,15 +246,6 @@ function BibleForm({ sku }) {
           </>
         )}
       </div>
-
-      <div className="mt-4 flex items-center gap-2 text-xs text-gray-400">
-        {TABS.map(t => {
-          const filled = ['brand_story', 'description', 'prep_time', 'assembly_steps', 'appearance', 'taste', 'target_bc', 'storage', 'hero_photo']
-            .some(f => data[`${t.key}.${f === 'brand_story' && t.key === 'brand_identity' ? f : Object.keys(data).find(k => k.startsWith(t.key)) ? f : ''}`]);
-          return <span key={t.key} className={`w-3 h-3 rounded-full ${filled ? 'bg-green-400' : 'bg-gray-200'}`} title={t.label} />;
-        })}
-        <span className="ml-1">Section completion</span>
-      </div>
     </div>
   );
 }
@@ -125,19 +265,39 @@ function Field({ label, value, onChange, type = 'text', placeholder }) {
 }
 
 export default function ProductBibles() {
+  const skus = useSkuStore(s => s.skus);
+  const addSku = useSkuStore(s => s.addSku);
   const [selectedSku, setSelectedSku] = useState(null);
   const [brandFilter, setBrandFilter] = useState('all');
+  const [showAddForm, setShowAddForm] = useState(false);
 
-  const filtered = INITIAL_SKUS.filter(s => brandFilter === 'all' || s.brand === brandFilter);
+  const filtered = skus.filter(s => brandFilter === 'all' || s.brand === brandFilter);
 
   if (selectedSku) {
-    const sku = INITIAL_SKUS.find(s => s.sku_code === selectedSku);
+    const sku = skus.find(s => s.sku_code === selectedSku);
+    if (!sku) { setSelectedSku(null); return null; }
     return (
       <div>
         <button onClick={() => setSelectedSku(null)} className="text-sm text-gold hover:text-gold/80 mb-4">&larr; Back to SKU list</button>
         <div className="bg-white rounded-lg border p-6">
           <BibleForm sku={sku} />
         </div>
+      </div>
+    );
+  }
+
+  if (showAddForm) {
+    return (
+      <div>
+        <button onClick={() => setShowAddForm(false)} className="text-sm text-gold hover:text-gold/80 mb-4">&larr; Back to SKU list</button>
+        <NewSkuForm
+          preselectedBrand={brandFilter}
+          onCancel={() => setShowAddForm(false)}
+          onSave={(sku) => {
+            addSku(sku);
+            setShowAddForm(false);
+          }}
+        />
       </div>
     );
   }
@@ -150,6 +310,12 @@ export default function ProductBibles() {
           {BRANDS.map(b => <option key={b} value={b}>{BRAND_LABELS[b]}</option>)}
         </select>
         <span className="text-xs text-gray-500">{filtered.length} products</span>
+        <button
+          onClick={() => setShowAddForm(true)}
+          className="ml-auto bg-gold text-white px-4 py-2 rounded text-sm font-medium hover:bg-gold/90 flex items-center gap-2"
+        >
+          <Plus size={16} /> Add New Product
+        </button>
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">

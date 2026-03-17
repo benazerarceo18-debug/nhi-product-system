@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { INITIAL_SKUS, BRANDS, BRAND_LABELS } from '../data/seed';
+import { BRANDS, BRAND_LABELS } from '../data/seed';
+import useSkuStore from '../store/skuStore';
 import { calcQCScore, getQCStatus, QC_WEIGHTS } from '../utils/calculations';
 import { ClipboardCheck } from 'lucide-react';
 
@@ -14,7 +15,8 @@ const CRITERIA = [
 export default function QCAudit() {
   const [brand, setBrand] = useState(BRANDS[0]);
   const [location, setLocation] = useState('');
-  const [skuCode, setSkuCode] = useState(INITIAL_SKUS[0].sku_code);
+  const allSkus = useSkuStore(s => s.skus);
+  const [skuCode, setSkuCode] = useState(allSkus[0]?.sku_code || '');
   const [auditor, setAuditor] = useState('');
   const [scores, setScores] = useState({ appearance: 85, portion: 85, temperature: 85, taste: 85, assembly: 85 });
   const [corrective, setCorrective] = useState('');
@@ -30,7 +32,7 @@ export default function QCAudit() {
     setTimeout(() => setSubmitted(false), 3000);
   };
 
-  const brandSkus = INITIAL_SKUS.filter(s => s.brand === brand);
+  const brandSkus = allSkus.filter(s => s.brand === brand);
 
   return (
     <div className="max-w-2xl">

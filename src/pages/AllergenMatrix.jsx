@@ -1,12 +1,14 @@
 import { useState, Fragment } from 'react';
-import { INITIAL_SKUS, BRANDS, BRAND_LABELS, ALLERGEN_FIELDS } from '../data/seed';
+import { BRANDS, BRAND_LABELS, ALLERGEN_FIELDS } from '../data/seed';
+import useSkuStore from '../store/skuStore';
 import { Printer, Search, AlertTriangle } from 'lucide-react';
 
 export default function AllergenMatrix() {
+  const allSkus = useSkuStore(s => s.skus);
   const [search, setSearch] = useState('');
   const [brandFilter, setBrandFilter] = useState('all');
 
-  const filtered = INITIAL_SKUS.filter(s => {
+  const filtered = allSkus.filter(s => {
     if (brandFilter !== 'all' && s.brand !== brandFilter) return false;
     if (search && !s.product_name.toLowerCase().includes(search.toLowerCase()) && !s.sku_code.toLowerCase().includes(search.toLowerCase())) return false;
     return true;
