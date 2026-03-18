@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard, BookOpen, Calculator, ClipboardCheck,
-  Trash2, ShieldAlert, BarChart3, ShoppingCart, TrendingUp, GlassWater,
+  Trash2, ShieldAlert, BarChart3, ShoppingCart, TrendingUp, GlassWater, FileText, ExternalLink,
 } from 'lucide-react';
 import { NHILogo } from './BrandLogos';
 
@@ -16,6 +16,7 @@ const NAV = [
   { to: '/waste',    label: 'Waste Log',       icon: Trash2 },
   { to: '/allergen', label: 'Allergen Matrix', icon: ShieldAlert },
   { to: '/kpi',      label: 'KPI Tracker',     icon: BarChart3 },
+  { to: '/reports',  label: 'Reports',         icon: FileText },
 ];
 
 export default function Sidebar() {
@@ -66,6 +67,19 @@ export default function Sidebar() {
           </NavLink>
         ))}
       </nav>
+
+      {/* Switch App */}
+      <div className="px-3 pb-2">
+        <a
+          href="https://nhi-ops-hub.vercel.app"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 px-3 py-2 text-[12px] rounded-lg text-white/40 hover:text-gold hover:bg-white/5 transition-all"
+        >
+          <ExternalLink size={13} />
+          Switch to Ops Hub ↗
+        </a>
+      </div>
 
       {/* Footer */}
       <div className="px-4 py-3 border-t border-white/5">
